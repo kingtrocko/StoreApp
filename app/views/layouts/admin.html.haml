@@ -1,0 +1,70 @@
+!!! 5
+%html
+%head
+  %title Gs01
+  = stylesheet_link_tag    'admin/admin.css', media: 'all'
+  /= stylesheet_link_tag    '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css', media: 'all'
+  //= stylesheet_link_tag    '//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css', media: 'all'
+  /= stylesheet_link_tag    'admin/AdminLTE.css', media: 'all'
+  /= stylesheet_link_tag    '//cdn.datatables.net/1.10.4/css/jquery.dataTables.css'
+  /= stylesheet_link_tag    'admin/jquery.treetable.css'
+  /= stylesheet_link_tag    'admin/jquery.treetable.theme.default.css'
+  /= javascript_include_tag 'admin/app.js'
+  /= javascript_include_tag '//cdn.datatables.net/1.10.4/js/jquery.dataTables.js'
+  = csrf_meta_tags
+
+%body{:class => "skin-blue"}
+  %header{:class => "header"}
+    %a{:href => "", :class => "logo"} Admin Site
+
+    %nav{:class => "navbar navbar-static-top", :role => "navigation"}
+      %a{:href => "#", :class => "navbar-btn sidebar-toggle", "data-toggle" => "offcanvas", :role => "button"}
+        %span{:class => "sr-only"}Toggle navigation
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+        %span{:class => "icon-bar"}
+
+      .navbar-right
+        %ul{:class => "nav navbar-nav"}
+          %li{:class => "dropdown messages-menu"}
+            %a{:href => "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"}
+              %i{:class => "fa fa-envelope"}
+              %span{:class => "label label-success"}4
+  %div{:class => "wrapper row-offcanvas row-offcanvas-left"}
+    %aside{:class => "left-side sidebar-offcanvas"}
+      %section{:class => "sidebar"}
+        %ul{:class => "sidebar-menu"}
+          %li{:class => "treeview"}
+            %a{:href => "#"}
+              %i{:class => "fa fa-bar-chart-o"}
+              %span Products
+              %i{:class => "fa fa-angle-left pull-right"}
+            %ul{:class => "treeview-menu"}
+              %li
+                %a{:href =>"#{admin_products_path}"}
+                  %i{:class => "fa fa-angle-double-right"} Products
+              %li
+                %a{:href =>"#{admin_categories_path}"}
+                  %i{:class => "fa fa-angle-double-right"} Categories
+              %li
+                %a{:href =>"#{admin_units_path}"}
+                  %i{:class => "fa fa-angle-double-right"} Units
+          %li{:class => "treeview"}
+            %a{:href => "#"}
+              %i{:class => "fa fa-bar-chart-o"}
+              %span Customers
+              %i{:class => "fa fa-angle-left pull-right"}
+            %ul{:class => "treeview-menu"}
+              %li
+                %a{:href =>"#{admin_customers_path}"}
+                  %i{:class => "fa fa-angle-double-right"} Customers
+    %aside.right-side
+      %section.content-header
+        = yield :header
+        %div.breadcrumb
+          = yield :buttons
+      %section.content
+        = yield
+  /= javascript_include_tag 'admin/jquery.treetable.js'
+  = javascript_include_tag 'admin/admin.js'
+  = yield :javascript

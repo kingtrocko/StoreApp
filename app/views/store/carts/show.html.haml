@@ -1,0 +1,11 @@
+%p#notice= notice
+
+%p Your current Cart
+%ul
+	- @cart.line_items.each do |item|
+		%li= "#{item.quantity} x #{item.product.title}"
+
+= button_to 'Empty Cart', [:store, @cart], method: :delete, data: {confirm: 'Are you sure?'}
+= link_to 'Back to Products', admin_products_path
+/modify products_path
+

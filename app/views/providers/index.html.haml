@@ -1,0 +1,39 @@
+%h1 Listing providers
+
+%table.table.table-bordered
+  %thead
+    %tr
+      %th Company name
+      %th Contact first name
+      %th Contact last name
+      %th City
+      %th Phone
+      %th Email
+      %th Logo url
+      %th Website
+      %th Active
+      %th
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @providers.each do |provider|
+      %tr
+        %td= provider.company_name
+        %td= provider.contact_first_name
+        %td= provider.contact_last_name
+        %td= provider.city
+        %td= provider.phone
+        %td= provider.email
+        %td= provider.logo_url
+        %td= provider.website
+        %td= provider.active
+        %td= link_to 'Show', provider
+        %td= link_to 'Edit', edit_provider_path(provider)
+        %td= link_to 'Destroy', provider, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to 'Go to Products', admin_products_path(provider_id: provider.id)
+
+%br
+
+= link_to 'New Provider', new_provider_path

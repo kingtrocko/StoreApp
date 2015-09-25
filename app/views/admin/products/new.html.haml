@@ -1,0 +1,9 @@
+= content_for :header do
+  %h1 New product
+  
+= content_for :buttons do
+  <a href="#" onclick="$('#frm_products').submit();">Save</a>
+  %span|
+  = link_to 'Back', admin_products_path
+
+= render 'form'

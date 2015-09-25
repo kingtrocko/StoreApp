@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @product.title
+%p
+  %b Description:
+  = @product.description
+%p
+  %b Provider:
+  = @product.provider
+%p
+  %b Category:
+  = @product.category
+%p
+  %b Active:
+  = @product.active
+
+= link_to 'Edit', edit_admin_product_path(@product)
+\|
+= link_to 'Back', admin_products_path

@@ -1,0 +1,7 @@
+%tr{ 'data-tt-id' => "#{category.id}", 'data-tt-parent-id' => "#{category.parent_id}", 'data-tt-branch' => "#{category.has_children}"}
+  %td
+    = check_box_tag "product[category_ids][]", category.id, @product.categories.include?(category), :id => "#{category.id}"
+  %td
+    %label{:for => "#{category.id}"}= category.title
+  %td
+    = category.product_count

@@ -1,0 +1,33 @@
+%p#notice= notice
+
+%p
+  %b Company name:
+  = @provider.company_name
+%p
+  %b Contact first name:
+  = @provider.contact_first_name
+%p
+  %b Contact last name:
+  = @provider.contact_last_name
+%p
+  %b City:
+  = @provider.city
+%p
+  %b Phone:
+  = @provider.phone
+%p
+  %b Email:
+  = @provider.email
+%p
+  %b Logo url:
+  = @provider.logo_url
+%p
+  %b Website:
+  = @provider.website
+%p
+  %b Active:
+  = @provider.active
+
+= link_to 'Edit', edit_provider_path(@provider)
+\|
+= link_to 'Back', providers_path

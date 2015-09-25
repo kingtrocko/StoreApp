@@ -1,0 +1,22 @@
+= content_for :header do
+  %h1 Categories
+  
+= content_for :buttons do
+  = link_to 'New Category', new_admin_category_path, :class => "btn btn-default", :data => {:toggle=>"tooltip"},:title => "Add category"
+  <a class="btn btn-default" href="#" role="button">Options</a>
+
+%table{:class => "table table-hover"}
+  %thead
+    %tr
+      %th Title
+      %th
+      %th
+      
+  %tbody
+    - @categories.each do |category|
+      %tr
+        %td= category.title
+        %td= link_to 'Edit', edit_admin_category_path(category)
+        %td= link_to 'Destroy', [:admin, category], :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br

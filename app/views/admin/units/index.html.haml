@@ -1,0 +1,22 @@
+= content_for :header do
+  %h1 Units
+
+= content_for :buttons do
+  = link_to 'New Unit', new_admin_unit_path, :class => "btn btn-default", :data => {:toggle=>"tooltip"},:title => "Add unit"
+  <a class="btn btn-default" href="#" role="button">Options</a>
+
+%table
+  %thead
+    %tr
+      %th Title
+      %th
+      %th
+      
+  %tbody
+    - @units.each do |unit|
+      %tr
+        %td= unit.title
+        %td= link_to 'Edit', edit_admin_unit_path(unit)
+        %td= link_to 'Destroy', [:admin, unit], :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br

@@ -1,0 +1,7 @@
+= simple_form_for([:admin, @unit], html: {class: "form-horizontal", id: "frm_units"}) do |f|
+  = f.error_notification
+
+  .form-group
+    = f.label :title, 'Unit Name', :class => "control-label col-sm-2"
+    %div{:class => "col-sm-6"}
+      = f.input :title, label: false

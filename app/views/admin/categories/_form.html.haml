@@ -1,0 +1,9 @@
+= simple_form_for([:admin, @category], html: {class: "form-horizontal", id: "frm_categories"}) do |f|
+  = f.error_notification
+
+  .form-group
+    = f.label :title, 'Category Name', :class => "control-label col-sm-2"
+    %div{:class => "col-sm-6"}
+      = f.input :title, label: false, input_html: {required: ''}
+
+  = f.submit

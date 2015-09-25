@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @unit.title
+
+= link_to 'Edit', edit_admin_unit_path(@unit)
+\|
+= link_to 'Back', admin_units_path

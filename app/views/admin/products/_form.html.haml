@@ -1,0 +1,118 @@
+= content_for :javascript do
+  :javascript
+      var table = $("#tb_categories");
+      
+      table.treetable({
+        expandable: true,
+        onNodeCollapse: function() {
+          var node = this;
+          table.treetable("unloadBranch", node);
+        },
+        onNodeExpand: function() {
+          var node = this;
+          // Render loader/spinner while loading
+          $.ajax({
+            async: false, // Must be false, otherwise loadBranch happens after showChildren?
+            url: "/admin/products/" + node.id + "/children"
+          }).done(function(html) {
+            var rows = $(html).filter("tr");
+  
+            table.treetable("loadBranch", node, rows);
+          });
+        }
+      });
+      
+      function addCategories()
+      {
+        var checkboxes = $('#tb_categories').find('input[type="checkbox"]:checked');
+        $('#div-selected-categs').empty();
+        $('#div-selected-categs').append(checkboxes.length + ' categories selected'); 
+      }
+
+.nav-tabs-custom
+  .tabpanel
+    %ul{:class => "nav nav-tabs", :role => "tablist", :id => "myTab"}
+      %li{:class => "active"}
+        %a{:href => "#general", :role => "tab", 'data-toggle' => 'tab'}General
+      %li
+        %a{:href => "#images", :role => "tab", 'data-toggle' => 'tab'}Images
+      %li
+        %a{:href => "#data", :role => "tab", 'data-toggle' => 'tab'}Data
+
+  = simple_form_for [:admin, @product], html: {class: "form-horizontal", multipart: true, id: "frm_products"} do |f|
+    %div{:class => "tab-content"}
+      %div{:class => "tab-pane active", :id => "general", :role => 'tabpanel'}
+        .form-group
+          = f.label :title, 'Name', :class => "control-label col-sm-2"
+          %div{:class => "col-sm-6"}
+            = f.input :title, label: false
+        .form-group
+          = f.label 'Categories', :class => "control-label col-sm-2"
+          %div{:class => "col-sm-6"}
+            %a{:class => 'btn btn-default', 'data-toggle' => 'modal', 'data-target' => '.bs-example-modal-lg'}
+              %i{:class => 'glyphicon glyphicon-plus'} Add Categories
+        .form-group
+          %label{:class => "control-label col-sm-2"}
+          %div{:class => "col-sm-6", :id => "div-selected-categs"}
+
+        .form-group
+          = f.label :description, :class => "control-label col-sm-2"
+          %div{:class => "col-sm-6"}
+            = f.input :description, label: false
+        .form-group
+          = f.label :provider, :class => "control-label col-sm-2"
+          %div{:class => "col-sm-6"}
+            = f.association :provider, label_method: :company_name, value_method: :id, label: false
+        .form-group
+          = f.label 'Product Image:', :class => "control-label col-sm-2"
+          %div{:class => "col-sm-6"}
+            = f.file_field :image
+
+        = f.simple_fields_for :product_units, @product_unit do |pu|
+          .form-group
+            = pu.label :title, 'Unit Type', :class => "control-label col-sm-2"
+            %div{:class => "col-sm-6"}
+              = pu.collection_select :unit_id, Unit.all, :id, :title, :prompt => "Select your unit"
+          .form-group
+            = pu.label :price, 'Price Value', :class => "control-label col-sm-2"
+            %div{:class => "col-sm-6"}
+              = pu.input :price, label: 'Price Value', label: false
+          .form-group
+            = pu.label :description, 'Price Description', :class => "control-label col-sm-2"
+            %div{:class => "col-sm-6"}
+              = pu.input :description, label: 'Price Description', label: false
+          .form-group
+            = pu.label :amount, 'In Stock', :class => 'control-label col-sm-2'
+            %div{:class => 'col-sm-6'}
+              = pu.input :amount, label: false
+        .form-group
+          = f.label :active, :class => "control-label col-sm-2"
+          %div{:class => "col-sm-6"}
+            = f.input :active, label: false
+
+      %div{:class => "tab-pane", :id => "images", :role => "tabpanel"}
+        %h3 This is a heading test for IMAGES
+      %div{:class => "tab-pane", :id => "data", :role => "tabpanel"}
+        %h3 Data Information
+
+    %div{:id => 'allCategories', :class => 'modal bs-example-modal-lg', :role => 'dialog', 'data-backdrop' => 'static'}
+      .modal-dialog.modal-lg
+        .modal-content
+          .modal-header
+            %button{:type => 'button', :class => 'close', 'data-dismiss' => 'modal', 'aria-label' => 'close'}
+              %span{'aria-hidden' => 'true'}x
+            %h4{:class => 'modal-title'} Add Categories
+          .modal-body
+            %table{:id => 'tb_categories', :class => "table row-border hover"}
+              %thead
+                %tr
+                  %th{:width => "100px"}
+                    %input{:type => "checkbox"}
+                  %th Categories
+                  %th{:width => "50px"}
+                    Products
+              %tbody
+                = render :partial => "node", :collection => @nodes, :as => :category
+          .modal-footer
+            %button{:type => 'button', :class => 'btn btn-default', 'data-dismiss' => 'modal'}Close
+            %button{:type => 'button', :class => 'btn btn-default', :onclick => 'addCategories();'} Add Categories

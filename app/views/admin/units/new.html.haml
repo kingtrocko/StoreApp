@@ -1,0 +1,9 @@
+= content_for :header do
+  %h1 New unit
+
+= content_for :buttons do
+  <a href="#" onclick="$('#frm_units').submit();">Save</a>
+  %span|
+  = link_to 'Back', admin_units_path
+
+= render 'form'

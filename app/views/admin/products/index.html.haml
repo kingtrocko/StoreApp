@@ -1,0 +1,67 @@
+= content_for :header do
+  %h1 Products
+
+= content_for :buttons do
+  = link_to 'New Product', new_admin_product_path, :class => "btn btn-default", :data => {:toggle=>"tooltip"},:title => "Add product"
+  <a class="btn btn-default" href="#" role="button">Options</a>
+
+= content_for :javascript do
+  :javascript
+    function getValue(selectTag) {
+      var pid = selectTag.attributes['data-p'].value;
+      var price = $('#' + selectTag.attributes['id'].value).find('option[value="' + selectTag.value +'"]').attr('price')
+      var qty = $('#' + selectTag.attributes['id'].value).find('option[value="' + selectTag.value +'"]').attr('qty');
+      $('#lblPrice_' + pid).text(price);
+      $('#lblQty_' + pid).text(qty);
+    }
+    
+    $(document).ready( function () {
+      $('#tb_products').DataTable({ searching: false });
+    });
+
+= form_tag(admin_products_path, method: "get") do
+  %p
+    = text_field_tag :search, params[:search]
+    = submit_tag "Search by Category", :name => nil
+
+%table.table.row-border.hover#tb_products
+  %thead
+    %tr
+      %th
+      %th Image
+      %th Name
+      %th CODE
+      %th Units
+      %th Price
+      %th Quantity
+      %th Status
+      %th.col-md-1
+
+  %tbody
+    - @products.each do |product|
+      %tr
+        %td
+          %input{:type => "checkbox"}
+        %td= image_tag(product.image.url, size: "50x50")
+        %td= product.title
+        %td= product.product_code
+        -units_array = ProductUnit.includes(:unit).where("product_units.product_id = ?", product.id).order('units.title ASC')
+        -options = ""
+        - units_array.each do |pu|
+          -options = options + "<option value='#{pu.unit.id}' price='#{pu.price}' qty='#{pu.amount}'>#{pu.unit.title}</option>"
+
+        %td= select_tag(:id, options.html_safe, :id => "id_#{product.id}", 'data-p' => "#{product.id}", :onchange => "getValue(this);")
+        %td= label_tag "", "#{units_array.first.price}", :id => "lblPrice_#{product.id}" 
+        %td= label_tag "", "#{units_array.first.amount}", :id => "lblQty_#{product.id}" 
+        %td= product.active
+        %td
+          .btn-group
+            %a{:class => 'button btn btn-sm btn-default dropdown-toggle', :href => '#', 'data-toggle' => 'dropdown', 'aria-expanded' => 'false'}
+              %i{:class => 'glyphicon glyphicon-cog'}
+              %span{:class => 'caret'}
+            %ul{:class => 'dropdown-menu'}
+              %li
+                = link_to 'Edit', edit_admin_product_path(product)
+              %li
+                = link_to 'Destroy', [:admin, product], :method => :delete, :data => { :confirm => 'Are you sure?' }
+%br

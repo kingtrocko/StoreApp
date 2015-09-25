@@ -1,0 +1,36 @@
+= content_for :header do
+  %h1 Customers
+
+= content_for :buttons do
+  = link_to 'New Customer', new_admin_customer_path, :class => "btn btn-default", :data => {:toggle=>"tooltip"},:title => "Add customer"
+  <a class="btn btn-default" href="#" role="button">Options</a>
+
+%table{:class => "table"}
+  %thead
+    %tr
+      %th Store name
+      %th First name
+      %th Last name
+      %th Email
+      %th Phone
+      %th Address
+      %th City
+      %th Active
+      %th
+      %th
+      
+  %tbody
+    - @customers.each do |customer|
+      %tr
+        %td= customer.store_name
+        %td= customer.first_name
+        %td= customer.last_name
+        %td= customer.email
+        %td= customer.phone
+        %td= customer.address
+        %td= customer.city
+        %td= customer.active
+        %td= link_to 'Edit', edit_admin_customer_path(customer)
+        %td= link_to 'Destroy',[:admin, customer], :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br

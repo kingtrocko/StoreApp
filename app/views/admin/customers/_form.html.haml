@@ -1,0 +1,35 @@
+= simple_form_for [:admin, @customer], html: {class: "form-horizontal", id: "frm_customers"} do |f|
+  = f.error_notification
+
+  .form-group
+    = f.label :store_name, :class => "control-label col-sm-2"
+    %div{:class => "col-sm-6"}
+      = f.input :store_name, label: false
+  .form-group
+    = f.label :first_name, :class => "control-label col-sm-2"
+    %div{:class => "col-sm-6"}
+      = f.input :first_name, label: false
+  .form-group
+    = f.label :last_name, :class => "control-label col-sm-2"
+    %div{:class => "col-sm-6"}
+      = f.input :last_name, label: false
+  .form-group
+    = f.label :email, :class => "control-label col-sm-2"
+    %div{:class => "col-sm-6"}
+      = f.input :email, label: false
+  .form-group
+    = f.label :phone, :class => "control-label col-sm-2"
+    %div{:class => "col-sm-6"}
+      = f.input :phone, label: false
+  .form-group
+    = f.label :address, :class => "control-label col-sm-2"
+    %div{:class => "col-sm-6"}
+      = f.input :address, label: false
+  .form-group
+    = f.label :city, :class => "control-label col-sm-2"
+    %div{:class => "col-sm-6"}
+      = f.input :city, label: false
+  .form-group
+    = f.label :active, :class => "control-label col-sm-2"
+    %div{:class => "col-sm-6"}
+      = f.input :active, label: false

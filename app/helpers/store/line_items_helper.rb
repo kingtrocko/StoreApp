@@ -1,0 +1,2 @@
+module Store::LineItemsHelper
+end

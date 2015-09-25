@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Store name:
+  = @customer.store_name
+%p
+  %b First name:
+  = @customer.first_name
+%p
+  %b Last name:
+  = @customer.last_name
+%p
+  %b Email:
+  = @customer.email
+%p
+  %b Phone:
+  = @customer.phone
+%p
+  %b Address:
+  = @customer.address
+%p
+  %b City:
+  = @customer.city
+%p
+  %b Active:
+  = @customer.active
+
+= link_to 'Edit', edit_admin_customer_path(@customer)
+\|
+= link_to 'Back', admin_customers_path
